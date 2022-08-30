@@ -162,3 +162,17 @@ resource "azurerm_subnet_network_security_group_association" "prv-nsg-associatio
   subnet_id                 = azurerm_subnet.prv-subnet.id
   network_security_group_id = azurerm_network_security_group.nsg-001.id
 }
+
+# Databricks
+resource "azurerm_databricks_workspace" "db-ws" {
+  name                        = "mydbws"
+  resource_group_name         = azurerm_resource_group.main-rg.name
+  location                    = var.resource_group_location
+  sku                         = "premium"
+  managed_resource_group_name = azurerm_resource_group.databricks-managed-rg.name
+  tags = {
+    "environment" = upper(var.environment)
+    "project" = var.project_name
+    "module" = "Main"
+  }
+}
