@@ -162,3 +162,10 @@ resource "azurerm_subnet_network_security_group_association" "prv-nsg-associatio
   subnet_id                 = azurerm_subnet.prv-subnet.id
   network_security_group_id = azurerm_network_security_group.nsg-001.id
 }
+
+# Datafactory
+resource "azurerm_data_factory" "adf" {
+  name                = "lo3-we-adf-001-main"
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.main-rg.name
+}
