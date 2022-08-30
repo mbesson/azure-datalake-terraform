@@ -133,6 +133,19 @@ resource "azurerm_subnet" "pub-subnet" {
   resource_group_name  = azurerm_resource_group.network-rg.name
   virtual_network_name = azurerm_virtual_network.main-vnet.name
   address_prefixes     = ["10.205.5.128/26"]
+
+  delegation {
+    name = "databricks-delegation"
+  
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
+        "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action",
+      ]
+    }
+  }
 }
 
 resource "azurerm_subnet_route_table_association" "pub-route-association" {
@@ -151,6 +164,19 @@ resource "azurerm_subnet" "prv-subnet" {
   resource_group_name  = azurerm_resource_group.network-rg.name
   virtual_network_name = azurerm_virtual_network.main-vnet.name
   address_prefixes     = ["10.205.5.192/26"]
+
+  delegation {
+    name = "databricks-delegation"
+  
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
+        "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action",
+      ]
+    }
+  }
 }
 
 resource "azurerm_subnet_route_table_association" "prv-route-association" {
