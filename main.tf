@@ -162,3 +162,29 @@ resource "azurerm_subnet_network_security_group_association" "prv-nsg-associatio
   subnet_id                 = azurerm_subnet.prv-subnet.id
   network_security_group_id = azurerm_network_security_group.nsg-001.id
 }
+
+# Key vault for datalake usage
+resource "azurerm_key_vault" "kv-datalake" {
+  name                        = "lo3-we-kv-dlk-001"
+  location                    = var.resource_group_location
+  resource_group_name         = azurerm_resource_group.main-rg.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = var.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = true
+
+  sku_name = "standard"
+}
+
+# Key vault for devops usage in current projects
+resource "azurerm_key_vault" "kv-devops" {
+  name                        = "lo3-we-kv-devops-002"
+  location                    = var.resource_group_location
+  resource_group_name         = azurerm_resource_group.devops-rg.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = var.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = true
+
+  sku_name = "standard"
+}
