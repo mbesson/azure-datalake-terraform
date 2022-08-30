@@ -162,3 +162,20 @@ resource "azurerm_subnet_network_security_group_association" "prv-nsg-associatio
   subnet_id                 = azurerm_subnet.prv-subnet.id
   network_security_group_id = azurerm_network_security_group.nsg-001.id
 }
+
+# Create storage account
+resource "azurerm_storage_account" "datalake" {
+  name                     = "lo3westsav2001"
+  resource_group_name      = azurerm_resource_group.main-rg.name
+  location                 = var.resource_group_location
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  account_kind = "StorageV2"
+  shared_access_key_enabled = true
+
+  tags = {
+    "environment" = upper(var.environment)
+    "project" = var.project_name
+    "module" = "Main"
+  }
+}
